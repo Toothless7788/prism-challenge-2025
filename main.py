@@ -3,7 +3,7 @@ import json
 import logging
 import requests
 from dotenv import load_dotenv
-from prevalgo import compute, calculate_risk
+from prevalgo import compute, calculate_risk, extract_preferences
 load_dotenv()
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='log3.txt', encoding='utf-8', level=logging.DEBUG)
@@ -67,7 +67,8 @@ def get_context():
         (success?, error or message)
     """
     # NOTE: Mocking
-    mock_context = '{"message":"Christopher Avila is a 67-year-old investor who started investing in 2011-07-01 and ended it on 2014-06-11. His hobbies include learning languages, and he avoids finance or crypto assets. He has a total budget of $23215."}'
+    # mock_context = '{"message":"Christopher Avila is a 67-year-old investor who started investing in 2011-07-01 and ended it on 2014-06-11. His hobbies include learning languages, and he avoids finance or crypto assets. He has a total budget of $23215."}'
+    mock_context = '{"message":"Jesse Bailey is a 50-year-old investor who started investing in 2016-05-17. His investment end date was 2018-02-15. His hobbies include learning languages, and he avoids energy and transportation, crypto assets, and life sciences. His true salary is $274484."}'
     return (True, mock_context)
 
     # return send_get_request("/request")
@@ -131,10 +132,14 @@ if __name__ == "__main__":
                 input_message = eval(context)["message"]
 
                 # NOTE: ok
-                print(f"input_message: {input_message}")
+                print(f"raw_input_message: {input_message}")
 
                 # TODO: Process input_message
-                input_message = ""
+                input_message = extract_preferences(input_message)
+                print(f"input_message: {input_message}")
+
+                if input_message == False:
+                    exit()
 
                 portfolio = compute(input_message)
             except Exception as e:

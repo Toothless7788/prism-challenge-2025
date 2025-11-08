@@ -143,12 +143,14 @@ def extract_preferences(message: str):
     # print(context_dict["start"])
     context_dict["start"] = context_dict["start"].strftime("%Y-%m-%d")
     context_dict["end"] = context_dict["end"].strftime("%Y-%m-%d")
+
+    print(f"Context dict: {context_dict}")
+    
     if not any([d == None for d in list(context_dict.values())]):
-        # print(context_dict)
         return context_dict
     else:
         # print("WE CAN'T PARSE: '" + message + "' yet.")
-        # print(context_dict)
+        # print(f"Context dict: {context_dict}")
         return False
     
 def read_pref(context) -> dict:

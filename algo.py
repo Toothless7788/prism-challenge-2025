@@ -292,10 +292,16 @@ def compute(message: str | dict):
             # Never run
             risk_ratio = pref["budget"] / pref["salary"]
         else:
-            risk_ratio = 0
+            risk_ratio = 0.05
         
         risk_level = calculate_risk(pref["age"], pref["employed"], risk_ratio)
+
+        print(f"risk_level: {risk_level}")
+
         filtered_prices = filter_by_risk(prices, pref["start"], pref["end"], risk_level)
+
+        print(f"filtered_prices: {filtered_prices}")
+
         portfolio_dict = pack_portfolio(filtered_prices, pref["budget"], risk_level)
         
         if portfolio_dict:

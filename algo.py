@@ -200,6 +200,8 @@ def extract_preferences(message: str):
     if isinstance(context_dict["end"], datetime.datetime):
         context_dict["end"] = context_dict["end"].strftime("%Y-%m-%d")
     
+    print(f"context_dict: {context_dict}")
+    
     # Check if all required fields are present
     if None in [context_dict["start"], context_dict["end"], context_dict["budget"]]:
         return False

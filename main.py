@@ -3,7 +3,7 @@ import json
 import logging
 import requests
 from dotenv import load_dotenv
-from prevalgo import compute, calculate_risk, extract_preferences
+from algo import compute, calculate_risk, extract_preferences
 load_dotenv()
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='log3.txt', encoding='utf-8', level=logging.DEBUG)
@@ -132,11 +132,12 @@ if __name__ == "__main__":
                 input_message = eval(context)["message"]
 
                 # NOTE: ok
-                print(f"raw_input_message: {input_message}")
+                # print(f"raw_input_message: {input_message}")
 
                 # TODO: Process input_message
                 input_message = extract_preferences(input_message)
-                print(f"input_message: {input_message}")
+
+                print(f"\ninput_message: {input_message}")
 
                 if input_message == False:
                     exit()

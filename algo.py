@@ -293,3 +293,51 @@ def compute(message: str):
             return None
     else:
         return None
+    
+
+if __name__ == "__main__":
+
+    data = {
+    "start": "2011-07-01",
+    "end": "2014-06-11", 
+    "age": 67,
+    "employed": False,
+    "salary": 0,
+    "budget": 23215,
+    "dislikes": ["Finance or Crypto Assets"]
+}
+
+    # Check the risk level
+    risk = calculate_risk(67, False, 0)
+    print(f"Risk level: {risk}")  # Should be "low"
+    print(f"Will use: ${23215 * 0.35:.2f} of budget")
+
+    # Get portfolio
+    result = compute(json.dumps(data))
+    print(result)
+
+    # context = json.dumps({"message": "Christopher Avila is a 67-year-old investor who started investing in 2011-07-01 and ended it on 2014-06-11. His hobbies include learning languages, and he avoids finance or crypto assets. He has a total budget of $23215."})
+    # portfolio = compute(eval(context)["message"])
+    # with open("log3.txt", "a") as f:
+    #     f.write(eval(context)["message"] + "\n")
+    #     # f.write("PARSED: " + str(extract_preferences(eval(context)["message"])) + "\n")
+    #     try:
+    #         portfolio = compute(eval(context)["message"])
+    #     except Exception:
+    #         continue
+    #     success, response = send_portfolio(portfolio)
+    #     if not success:
+    #         f.write(f"Error: {response}\n")
+    #         f.write(f"Evaluation response: {response}\n")
+    #         continue
+    #     f.write(f"Evaluation response: {response}\n")
+    #     ctx = json.loads(eval(context)["message"])
+    #     try:
+    #         f.write("BUDG/SAL:" + str(ctx["budget"]/ctx["salary"]) + "\n")
+    #         f.write("RISK:" + str(calculate_risk(ctx["age"], ctx["employed"], ctx["budget"]/ctx["salary"])) + "\n")
+
+    #     except ZeroDivisionError:
+    #         f.write("RISK:" + str(calculate_risk(ctx["age"], ctx["employed"], 0)) + "\n")
+    #         pass      
+    #     f.write("PORTF:" + str(portfolio) + "\n")
+    

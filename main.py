@@ -66,7 +66,10 @@ def get_context():
     Returns:
         (success?, error or message)
     """
-    return send_get_request("/request")
+    # NOTE: Mocking
+    return (True, '{"message":"Christopher Avila is a 67-year-old investor who started investing in 2011-07-01 and ended it on 2014-06-11. His hobbies include learning languages, and he avoids finance or crypto assets. He has a total budget of $23215."}')
+
+    # return send_get_request("/request")
 
 
 def get_my_current_information():

@@ -43,29 +43,16 @@ def analysis1(start_date, end_date, avoid):
             continue
         else:
             temp_tickers = symbols[sector]
+
             with open("mean.txt", "r") as f:
                 data = eval(f.readline())
+
             for ticker in temp_tickers:
                 start_year = int(start_date.split("-")[0])
                 end_year = int(end_date.split("-")[0])
+
                 if data[ticker][end_year]/data[ticker][start_year] > 1.6:
                     invest[ticker] = float(data[ticker][start_year])
-            # start_date1 = datetime.datetime.strptime(start_date, "%Y-%m-%d")+datetime.timedelta(days=3)
-            # end_date1 = datetime.datetime.strptime(end_date, "%Y-%m-%d")+datetime.timedelta(days=3)
-            # try:
-            #     open_data = yf.download(" ".join(temp_tickers), start=start_date, end=start_date1.strftime("%Y-%m-%d"), progress=False)
-            #     close_data = yf.download(" ".join(temp_tickers), start=end_date, end=end_date1.strftime("%Y-%m-%d"), progress=False)
-            #     # print(open_data)
-            #     # print(close_data)
-            #     if open_data.empty or close_data.empty:
-            #         continue
-            #     for ticker in open_data['Open']:
-            #         open_price = open_data['Close'][ticker].iloc[0]
-            #         close_price = close_data['Open'][ticker].iloc[0]
-            #         if close_price - open_price > 0:
-            #             invest[ticker] = float(open_price)
-            # except Exception as e:
-            #     pass
     
     # print("INVEST", invest)
     return invest

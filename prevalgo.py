@@ -161,7 +161,10 @@ def extract_preferences(message: str):
         # print(context_dict)
         return False
     
-def read_pref(context):
+def read_pref(context) -> dict:
+    """
+    :return: A JSON object that allows you to access it like a JSON dictionary
+    """
     return json.loads(context)
  
 # print(extract_preferences("Andre Webb is 19 years old, he started investing in 2012-04-11, and his investment end date was 2013-10-08. He enjoys hiking, and he avoids structured finance, life sciences, and finance. He has a true salary of $204,950 per year, and a budget of $10570."))

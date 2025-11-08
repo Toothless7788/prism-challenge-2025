@@ -91,7 +91,8 @@ def extract_preferences(message: str):
         "age": -1,
         "budget": None,
         "dislikes": [],
-        "salary": None
+        "salary": None, 
+        "employed": False
     }
     
     # Extract dates using dateparser
@@ -216,6 +217,7 @@ def calculate_risk(age, employed, ratio):
         return "low"
     if ratio < 0.05:
         return "high"
+    
     if not employed:
         return "low"
     elif age == -1:
@@ -224,6 +226,7 @@ def calculate_risk(age, employed, ratio):
         return "high"
     elif 30 <= age <= 60:
         return "medium"
+    
     return "low"
 
 
@@ -278,10 +281,15 @@ def compute(message: str | dict):
     if pref:
         to_avoid = [map_categories.get(x, None) for x in pref["dislikes"]]
         to_avoid = [x for x in to_avoid if x is not None]
+
+        print(f"\nto_avoid: {to_avoid}")
         
         prices = analysis1(start_date=pref["start"], end_date=pref["end"], avoid=to_avoid)
+
+        print(f"\nprices: {prices}")
         
         if pref["employed"]:
+            # Never run
             risk_ratio = pref["budget"] / pref["salary"]
         else:
             risk_ratio = 0

@@ -1,5 +1,5 @@
 from algo import extract_preferences
-from prevalgo import pack_portfolio
+from algo import pack_portfolio
 
 mock_context = '{"message":"Jesse Bailey is a 50-year-old investor who started investing in 2016-05-17. His investment end date was 2018-02-15. His hobbies include learning languages, and he avoids energy and transportation, crypto assets, and life sciences. His true salary is $274484."}'
 

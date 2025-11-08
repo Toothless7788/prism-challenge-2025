@@ -113,7 +113,10 @@ while True:
     success, context = get_context()
     if not success:
         logging.error(f"Error: {context}")
-    logging.info(f"Context provided: ", context)
+        exit(-1)
+
+    # logging.info(f"Context provided: ", context)
+
     logging.debug(compute(eval(context)["message"]))
 
     # Maybe do something with the context to generate this?

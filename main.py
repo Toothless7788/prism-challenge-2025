@@ -117,14 +117,18 @@ while True:
 
     # logging.info(f"Context provided: ", context)
 
-    logging.debug(compute(eval(context)["message"]))
+    # logging.debug(compute(eval(context)["message"]))
 
     # Maybe do something with the context to generate this?
     with open("log3.txt", "a") as f:
         f.write(eval(context)["message"] + "\n")
         # f.write("PARSED: " + str(extract_preferences(eval(context)["message"])) + "\n")
         try:
-            portfolio = compute(eval(context)["message"])
+            input_message = eval(context)["message"]
+
+            print(f"input_message: {input_message}")
+
+            portfolio = compute(input_message)
         except Exception:
             continue
         success, response = send_portfolio(portfolio)

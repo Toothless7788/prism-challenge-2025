@@ -213,11 +213,16 @@ def compute(message: str):
 
     if (pref):
         to_avoid = [map_categories.get(x, None) for x in pref["dislikes"]]
+
         prices = analysis1(start_date=pref["start"], end_date=pref["end"], avoid=to_avoid)
+
+        print(f"prices: {prices}")
+
         if pref["employed"]:
             portfolio_dict = pack_portfolio(filter_by_risk(prices, pref["start"], pref["end"], calculate_risk(pref["age"], pref["employed"], pref["budget"]/pref["salary"])), pref["budget"])
         else:
             portfolio_dict = pack_portfolio(filter_by_risk(prices, pref["start"], pref["end"], calculate_risk(pref["age"], pref["employed"], 0)), pref["budget"])
+
         if portfolio_dict != False:
             return list(portfolio_dict.items())
         else:

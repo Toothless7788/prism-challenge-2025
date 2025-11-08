@@ -67,7 +67,8 @@ def get_context():
         (success?, error or message)
     """
     # NOTE: Mocking
-    return (True, '{"message":"Christopher Avila is a 67-year-old investor who started investing in 2011-07-01 and ended it on 2014-06-11. His hobbies include learning languages, and he avoids finance or crypto assets. He has a total budget of $23215."}')
+    mock_context = '{"message":"Christopher Avila is a 67-year-old investor who started investing in 2011-07-01 and ended it on 2014-06-11. His hobbies include learning languages, and he avoids finance or crypto assets. He has a total budget of $23215."}'
+    return (True, mock_context)
 
     # return send_get_request("/request")
 
@@ -78,7 +79,11 @@ def get_my_current_information():
     Returns:
         (success?, error or message)
     """
-    return send_get_request("/info")
+    # NOTE: Mocking
+    mock_information = ""
+    return (True, mock_information)
+
+    # return send_get_request("/info")
 
 
 def send_portfolio(weighted_stocks):
@@ -98,10 +103,10 @@ def send_portfolio(weighted_stocks):
         return (True, "Not sent")
 
 
-success, information = get_my_current_information()
-if not success:
-    logging.error(f"Error: {information}")
-logging.info(f"Team information: ", information)
+# success, information = get_my_current_information()
+# if not success:
+#     logging.error(f"Error: {information}")
+# logging.info(f"Team information: ", information)
 
 # NOTE: Here
 while True:

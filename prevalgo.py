@@ -215,7 +215,9 @@ def filter_by_risk(prices, start_date, end_date, risk_level):
     
 def compute(message: str):
     pref = read_pref(message)
-    # pref = eval(message)
+    
+    print(f"pref in compute(): {pref}")
+
     if (pref):
         to_avoid = [map_categories.get(x, None) for x in pref["dislikes"]]
         prices = analysis1(start_date=pref["start"], end_date=pref["end"], avoid=to_avoid)

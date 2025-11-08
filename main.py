@@ -84,6 +84,7 @@ def send_portfolio(weighted_stocks):
     Returns:
         (success?, error or message)
     """
+    # NOTE: Here
     if weighted_stocks:
         data = [
             {"ticker": weighted_stock[0], "quantity": weighted_stock[1]}
@@ -99,6 +100,7 @@ if not success:
     logging.error(f"Error: {information}")
 logging.info(f"Team information: ", information)
 
+# NOTE: Here
 while True:
     success, context = get_context()
     if not success:

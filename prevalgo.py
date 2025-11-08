@@ -36,7 +36,10 @@ symbols = {
 MONTHS = ["January", "February", "March", "April", "May", "June", "July",
           "August", "September", "October", "November", "December"]
 
-def analysis1(start_date, end_date, avoid):
+def analysis1(start_date: str, end_date: str, avoid: list) -> dict:
+    """
+    :return: {ticket: start_year}
+    """
     invest = {}
     for sector in sectors:
         if sector in avoid:
@@ -176,19 +179,27 @@ def calculate_risk(age, employed, ratio):
     return "low"
 
 
-def filter_by_risk(prices, start_date, end_date, risk_level):
+def filter_by_risk(prices: dict, start_date: str, end_date: str, risk_level: str):
+    """
+    :param: prices: {ticket: start_year}
+    """
     # print("PRICES:", prices)
     if risk_level == "medium":
         return prices
+
     risks = {}
     start_year = int(start_date.split("-")[0])
     end_year = int(end_date.split("-")[0])
+
     with open("risk.txt", "r") as f:
         data = eval(f.readline())
+
     for ticker in prices:
         risks[ticker] = [data[ticker][i] for i in data[ticker] if start_year <= i <= end_year]
+
     for ticker in risks:
         risks[ticker] = sum(risks[ticker])/len(risks[ticker])
+
     risks = sorted(list(risks.items()), key=lambda x: x[1])
     # print("RISKS:", risks)
     n = len(risks)
@@ -229,17 +240,3 @@ def compute(message: str):
             return None
     else:
         return None
-    
-# print(compute("{'timestamp': '2025-04-06T05:13:05.974400686Z', 'start': '2012-01-01', 'end': '2013-10-16', 'age': 77, 'employed': True, 'salary': 78528, 'budget': 17756, 'dislikes': ['Crypto Assets', 'Real Estate and Construction', 'Trade and Services', 'Finance']}"))
-
-
-# 
-# with open("examples.txt", "r") as f:
-#     with open("output.txt", "a") as g:
-#         ctxs = f.readlines()
-#         for ctx in ctxs:
-#             msg = eval(ctx)["message"]
-#             pref = extract_preferences(msg)
-#             print(pref)
-#             # prices = analysis1(start_date=pref["start"], end_date=pref["end"], avoid=pref["dislikes"])
-#             # g.write(str(pack_portfolio(prices, pref["budget"])) + "\n")

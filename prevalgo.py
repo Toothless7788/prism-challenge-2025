@@ -61,7 +61,7 @@ def analysis1(start_date: str, end_date: str, avoid: list) -> dict:
     return invest
 
 
-def pack_portfolio(stock_prices: dict, budget: int):
+def pack_portfolio(stock_prices: dict, budget: int, risk_level: str):
     portfoio = {}
     remaining_budget = budget*BUDGET_RATIO
     stock_prices = list(stock_prices.items())

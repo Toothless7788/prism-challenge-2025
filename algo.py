@@ -211,6 +211,7 @@ def extract_preferences(message: str):
 
 def read_pref(context):
     """Read preferences from JSON string."""
+    # print(f"context in read_pref: {context}; type: {type(context)}")
     return json.loads(context)
 
 
@@ -270,9 +271,14 @@ def filter_by_risk(prices, start_date, end_date, risk_level):
     return {p: prices[p] for p in prices if p in filtered_risks}
 
 
-def compute(message: str):
+def compute(message: str | dict):
     """Main computation function for portfolio recommendation."""
-    pref = read_pref(message)
+    if isinstance(message, str):
+        pref = read_pref(message)
+    else:
+        pref = message
+
+    print(f"pref: {pref}")
     
     if pref:
         to_avoid = [map_categories.get(x, None) for x in pref["dislikes"]]

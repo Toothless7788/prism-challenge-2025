@@ -2,8 +2,6 @@ import spacy
 import re
 from collections import defaultdict
 
-URL = ""
-
 # CLAUDE BRUH CODE WE NEED TO OPTIMISE
 class SpacyInvestmentAnalyzer:
     def __init__(self, model='en_core_web_sm'):

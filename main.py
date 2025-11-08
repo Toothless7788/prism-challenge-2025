@@ -66,12 +66,7 @@ def get_context():
     Returns:
         (success?, error or message)
     """
-    # NOTE: Mocking
-    # mock_context = '{"message":"Christopher Avila is a 67-year-old investor who started investing in 2011-07-01 and ended it on 2014-06-11. His hobbies include learning languages, and he avoids finance or crypto assets. He has a total budget of $23215."}'
-    mock_context = '{"message":"Jesse Bailey is a 50-year-old investor who started investing in 2016-05-17. His investment end date was 2018-02-15. His hobbies include learning languages, and he avoids energy and transportation, crypto assets, and life sciences. His true salary is $274484."}'
-    return (True, mock_context)
-
-    # return send_get_request("/request")
+    return send_get_request("/request")
 
 
 def get_my_current_information():
@@ -80,11 +75,7 @@ def get_my_current_information():
     Returns:
         (success?, error or message)
     """
-    # NOTE: Mocking
-    mock_information = ""
-    return (True, mock_information)
-
-    # return send_get_request("/info")
+    return send_get_request("/info")
 
 
 def send_portfolio(weighted_stocks):
@@ -129,12 +120,14 @@ if __name__ == "__main__":
             # f.write(eval(context)["message"] + "\n")
             # f.write("PARSED: " + str(extract_preferences(eval(context)["message"])) + "\n")
             try:
-                input_message = eval(context)["message"]
+                input_message = json.loads(context)["message"]
+                # input_message = eval(context)["message"]
 
                 # NOTE: ok
                 # print(f"raw_input_message: {input_message}")
 
                 # TODO: Process input_message
+                print("INPUT MESSAGE:", input_message)
                 input_message = extract_preferences(input_message)
 
                 print(f"\ninput_message: {input_message}")
@@ -153,7 +146,6 @@ if __name__ == "__main__":
             success, response = send_portfolio(portfolio)
 
             # TODO: Temp
-            exit(-1)
 
             # Logging
 
@@ -162,12 +154,11 @@ if __name__ == "__main__":
                 f.write(f"Evaluation response: {response}\n")
                 continue
             f.write(f"Evaluation response: {response}\n")
-            ctx = json.loads(eval(context)["message"])
+            ctx = json.loads(context)
             try:
-                f.write("BUDG/SAL:" + str(ctx["budget"]/ctx["salary"]) + "\n")
-                f.write("RISK:" + str(calculate_risk(ctx["age"], ctx["employed"], ctx["budget"]/ctx["salary"])) + "\n")
+                f.write("RISK:" + str(calculate_risk(input_message["age"], input_message["employed"], input_message["budget"])) + "\n")
 
             except ZeroDivisionError:
-                f.write("RISK:" + str(calculate_risk(ctx["age"], ctx["employed"], 0)) + "\n")
-                pass      
+                f.write("RISK:" + str(calculate_risk(input_message["age"], input_message["employed"], 0)) + "\n")
+                pass
             f.write("PORTF:" + str(portfolio) + "\n")

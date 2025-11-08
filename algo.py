@@ -59,6 +59,7 @@ def analysis1(start_date, end_date, avoid):
 
 def pack_portfolio(stock_prices: dict, budget: int, risk_level: str):
     """Pack portfolio with available budget using greedy algorithm."""
+    print(f"pack_portfolio received: budget={budget}, risk_level={risk_level}")
     if not stock_prices:
         return False
     
@@ -71,7 +72,9 @@ def pack_portfolio(stock_prices: dict, budget: int, risk_level: str):
     
     portfolio = {}
     remaining_budget = budget * budget_ratio
+    print(f"remaining_budget: {remaining_budget}")
     sorted_stocks = sorted(stock_prices.items(), key=lambda x: x[1], reverse=True)
+    #sorted_stocks = sorted(stock_prices.items(), key=lambda x: x[1], reverse=False) 
     n = len(sorted_stocks)
     i = 0
     
@@ -96,7 +99,8 @@ def extract_preferences(message: str):
         "age": -1,
         "budget": None,
         "dislikes": [],
-        "salary": None
+        "salary": None,
+        "employed": False
     }
     
     # Extract dates using dateparser
@@ -163,6 +167,18 @@ def extract_preferences(message: str):
                     context_dict["budget"] = budget_val
                 break
     
+    # Extract salary and employment
+    for i, token in enumerate(tokens):
+        if token.lemma_ in ["salary", "income"]:
+            context_dict["employed"] = True
+            # Look for numbers near salary keyword
+            window = tokens[max(0, i-2):min(len(tokens), i+6)]
+            numbers = [t.text for t in window if t.like_num]
+            if numbers:
+                context_dict["salary"] = int(numbers[0].replace(",", ""))
+        elif token.lemma_ in ["employ", "work"]:
+            context_dict["employed"] = True
+    
     # Extract total investment (alternative to budget)
     if context_dict["budget"] is None:
         for i, token in enumerate(tokens):
@@ -172,6 +188,10 @@ def extract_preferences(message: str):
                     numbers = [t.text for t in window if t.like_num]
                     if numbers:
                         context_dict["budget"] = int(numbers[0].replace(",", ""))
+    
+    # If salary is found, and budget is not explicitly mentioned, use salary as budget
+    if context_dict["salary"] is not None:
+        context_dict["budget"] = context_dict["salary"]
     
     # Extract dislikes/avoids using dependency parsing
     for i, token in enumerate(tokens):
@@ -200,6 +220,7 @@ def extract_preferences(message: str):
     if isinstance(context_dict["end"], datetime.datetime):
         context_dict["end"] = context_dict["end"].strftime("%Y-%m-%d")
     
+    print(f"context_dict before return: {context_dict}")
     print(f"context_dict: {context_dict}")
     
     # Check if all required fields are present
@@ -285,15 +306,21 @@ def compute(message: str | dict):
         to_avoid = [x for x in to_avoid if x is not None]
         
         prices = analysis1(start_date=pref["start"], end_date=pref["end"], avoid=to_avoid)
+        print(f"prices after analysis1: {prices}")
         
-        if pref["employed"]:
+        if pref["employed"] and pref["salary"] is not None and pref["salary"] != 0:
             risk_ratio = pref["budget"] / pref["salary"]
         else:
-            risk_ratio = 0
+            risk_ratio = 0.05
         
         risk_level = calculate_risk(pref["age"], pref["employed"], risk_ratio)
+        print(f"risk_level: {risk_level}")
+        
         filtered_prices = filter_by_risk(prices, pref["start"], pref["end"], risk_level)
+        print(f"filtered_prices: {filtered_prices}")
+        
         portfolio_dict = pack_portfolio(filtered_prices, pref["budget"], risk_level)
+        print(f"portfolio_dict: {portfolio_dict}")
         
         if portfolio_dict:
             return list(portfolio_dict.items())

@@ -62,7 +62,7 @@ def analysis1(start_date: str, end_date: str, avoid: list) -> dict:
 
 
 def pack_portfolio(stock_prices: dict, budget: int, risk_level: str):
-    portfoio = {}
+    portfolio = {}
     remaining_budget = budget*BUDGET_RATIO
     stock_prices = list(stock_prices.items())
     sorted_stocks = sorted(stock_prices, key=lambda x: x[1], reverse=True)
@@ -72,11 +72,11 @@ def pack_portfolio(stock_prices: dict, budget: int, risk_level: str):
     try:
         while remaining_budget > sorted_stocks[-1][1]: 
             if sorted_stocks[i][1] <= remaining_budget:
-                portfoio[sorted_stocks[i][0]] = portfoio.get(sorted_stocks[i][0], 0) + 1
+                portfolio[sorted_stocks[i][0]] = portfolio.get(sorted_stocks[i][0], 0) + 1
                 remaining_budget -= sorted_stocks[i][1]
             i = (i + 1)%n
         # print(remaining_budget)
-        return portfoio
+        return portfolio
     except IndexError:
         return False
 

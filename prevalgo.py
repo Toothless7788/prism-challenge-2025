@@ -173,8 +173,10 @@ def read_pref(context) -> dict:
 def calculate_risk(age, employed, ratio):
     if ratio > 0.3:
         return "low"
+
     if ratio < 0.05:
         return "high"
+
     if not employed:
         return "low"
     elif age == -1:
@@ -183,6 +185,7 @@ def calculate_risk(age, employed, ratio):
         return "high"
     elif 30 <= age <= 60:
         return "medium" 
+
     return "low"
 
 

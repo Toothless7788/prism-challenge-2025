@@ -9,7 +9,6 @@ import datetime
 # Load spaCy model once at module level for efficiency
 nlp = spacy.load("en_core_web_sm")
 
-BUDGET_RATIO = 0.35
 RISK_RATIO = 0.3
 
 sectors = ["finance", "technology", "life science", "real estate", "energy", "manufacturing"]
@@ -58,13 +57,20 @@ def analysis1(start_date, end_date, avoid):
     return invest
 
 
-def pack_portfolio(stock_prices: dict, budget: int):
+def pack_portfolio(stock_prices: dict, budget: int, risk_level: str):
     """Pack portfolio with available budget using greedy algorithm."""
     if not stock_prices:
         return False
     
+    risk_budget_ratios = {
+        "low": 0.35,
+        "medium": 0.60,
+        "high": 0.85
+    }
+    budget_ratio = risk_budget_ratios.get(risk_level, 0.35)
+    
     portfolio = {}
-    remaining_budget = budget * BUDGET_RATIO
+    remaining_budget = budget * budget_ratio
     sorted_stocks = sorted(stock_prices.items(), key=lambda x: x[1], reverse=True)
     n = len(sorted_stocks)
     i = 0
@@ -279,7 +285,7 @@ def compute(message: str):
         
         risk_level = calculate_risk(pref["age"], pref["employed"], risk_ratio)
         filtered_prices = filter_by_risk(prices, pref["start"], pref["end"], risk_level)
-        portfolio_dict = pack_portfolio(filtered_prices, pref["budget"])
+        portfolio_dict = pack_portfolio(filtered_prices, pref["budget"], risk_level)
         
         if portfolio_dict:
             return list(portfolio_dict.items())

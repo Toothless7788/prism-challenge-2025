@@ -1,7 +1,10 @@
 import json
 from time import sleep
+from dotenv import load_dotenv
 import os
- 
+
+load_dotenv()
+
 import requests
  
 URL = "www.prism-challenge.com"
@@ -87,6 +90,8 @@ def send_portfolio(weighted_stocks):
     return send_post_request("/submit", data=data)
  
 if __name__ == "__main__":
+    print(f"API_KEY: {TEAM_API_CODE}")
+
     success, information = get_my_current_information()
     if not success:
         print(f"Error: {information}")

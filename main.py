@@ -126,7 +126,8 @@ while True:
         try:
             input_message = eval(context)["message"]
 
-            print(f"input_message: {input_message}")
+            # NOTE: ok
+            # print(f"input_message: {input_message}")
 
             portfolio = compute(input_message)
         except Exception:

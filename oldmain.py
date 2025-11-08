@@ -3,7 +3,7 @@ import json
 import logging
 import requests
 from dotenv import load_dotenv
-from prevalgo import compute, calculate_risk
+from algo import compute, calculate_risk
 load_dotenv()
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='log3.txt', encoding='utf-8', level=logging.DEBUG)

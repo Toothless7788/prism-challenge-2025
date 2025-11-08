@@ -3,7 +3,6 @@ from time import sleep
 from dotenv import load_dotenv
 import requests
 import os
-import 
  
 URL = "www.prism-challenge.com"
 PORT = 8082

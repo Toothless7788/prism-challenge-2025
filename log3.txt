@@ -1,0 +1,8 @@
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): www.prism-challenge.com:8082
+DEBUG:urllib3.connectionpool:http://www.prism-challenge.com:8082 "GET /info HTTP/1.1" 401 102
+ERROR:root:Error: Error - something went wrong when requesting [CODE: 401]: Unauthorized - invalid or missing X-API-Code header. You should have received on X-API-Code per team.
+
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): www.prism-challenge.com:8082
+DEBUG:urllib3.connectionpool:http://www.prism-challenge.com:8082 "GET /request HTTP/1.1" 401 102
+ERROR:root:Error: Error - something went wrong when requesting [CODE: 401]: Unauthorized - invalid or missing X-API-Code header. You should have received on X-API-Code per team.
+

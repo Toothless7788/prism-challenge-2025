@@ -10,6 +10,7 @@ import datetime
 nlp = spacy.load("en_core_web_sm")
 
 RISK_RATIO = 0.3
+BUDGET_RATIO = 0.35
 
 sectors = ["finance", "technology", "life science", "real estate", "energy", "manufacturing"]
 tickers = ["JPM", "BAC", "WFC", "PGR", "GS", "AAPL", "MSFT", "NVDA", "GOOG", "AMZN", 
@@ -58,30 +59,24 @@ def analysis1(start_date, end_date, avoid):
 
 
 def pack_portfolio(stock_prices: dict, budget: int, risk_level: str):
-    """Pack portfolio with available budget using greedy algorithm."""
-    if not stock_prices:
-        return False
-    
-    risk_budget_ratios = {
-        "low": 0.35,
-        "medium": 0.60,
-        "high": 0.85
-    }
-    budget_ratio = risk_budget_ratios.get(risk_level, 0.35)
-    
-    portfolio = {}
-    remaining_budget = budget * budget_ratio
-    sorted_stocks = sorted(stock_prices.items(), key=lambda x: x[1], reverse=True)
+    """
+    Pack portfolio with available budget using greedy algorithm.
+    """
+    portfoio = {}
+    remaining_budget = budget*BUDGET_RATIO
+    stock_prices = list(stock_prices.items())
+    sorted_stocks = sorted(stock_prices, key=lambda x: x[1], reverse=True)
+    # print(sorted_stocks)
     n = len(sorted_stocks)
     i = 0
-    
     try:
-        while remaining_budget > sorted_stocks[-1][1]:
+        while remaining_budget > sorted_stocks[-1][1]: 
             if sorted_stocks[i][1] <= remaining_budget:
-                portfolio[sorted_stocks[i][0]] = portfolio.get(sorted_stocks[i][0], 0) + 1
+                portfoio[sorted_stocks[i][0]] = portfoio.get(sorted_stocks[i][0], 0) + 1
                 remaining_budget -= sorted_stocks[i][1]
-            i = (i + 1) % n
-        return portfolio
+            i = (i + 1)%n
+        # print(remaining_budget)
+        return portfoio
     except IndexError:
         return False
 

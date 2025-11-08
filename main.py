@@ -133,6 +133,9 @@ if __name__ == "__main__":
                 # NOTE: ok
                 print(f"input_message: {input_message}")
 
+                # TODO: Process input_message
+                input_message = ""
+
                 portfolio = compute(input_message)
             except Exception as e:
                 print(f"Error: {e}")

@@ -38,7 +38,7 @@ MONTHS = ["January", "February", "March", "April", "May", "June", "July",
 
 def analysis1(start_date: str, end_date: str, avoid: list) -> dict:
     """
-    :return: {ticket: start_year}
+    :return: {ticket: price_in_the_year}
     """
     invest = {}
     for sector in sectors:
@@ -181,9 +181,8 @@ def calculate_risk(age, employed, ratio):
 
 def filter_by_risk(prices: dict, start_date: str, end_date: str, risk_level: str):
     """
-    :param: prices: {ticket: start_year}
+    :param: prices: {ticket: price_in_the_year}
     """
-    # print("PRICES:", prices)
     if risk_level == "medium":
         return prices
 
@@ -201,8 +200,9 @@ def filter_by_risk(prices: dict, start_date: str, end_date: str, risk_level: str
         risks[ticker] = sum(risks[ticker])/len(risks[ticker])
 
     risks = sorted(list(risks.items()), key=lambda x: x[1])
-    # print("RISKS:", risks)
+
     n = len(risks)
+
     if risk_level == "low":
         last_index = int((1-RISK_RATIO)*n)
         filtered_risks = dict(risks[:last_index])

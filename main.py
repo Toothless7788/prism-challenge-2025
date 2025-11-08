@@ -102,48 +102,63 @@ def send_portfolio(weighted_stocks):
     else:
         return (True, "Not sent")
 
+if __name__ == "__main__":
+    print(f"Running main.py")
 
-# success, information = get_my_current_information()
-# if not success:
-#     logging.error(f"Error: {information}")
-# logging.info(f"Team information: ", information)
+    # success, information = get_my_current_information()
+    # if not success:
+    #     logging.error(f"Error: {information}")
+    # logging.info(f"Team information: ", information)
 
-# NOTE: Here
-while True:
-    success, context = get_context()
-    if not success:
-        logging.error(f"Error: {context}")
-        exit(-1)
-
-    # logging.info(f"Context provided: ", context)
-
-    # logging.debug(compute(eval(context)["message"]))
-
-    # Maybe do something with the context to generate this?
-    with open("log3.txt", "a") as f:
-        f.write(eval(context)["message"] + "\n")
-        # f.write("PARSED: " + str(extract_preferences(eval(context)["message"])) + "\n")
-        try:
-            input_message = eval(context)["message"]
-
-            # NOTE: ok
-            # print(f"input_message: {input_message}")
-
-            portfolio = compute(input_message)
-        except Exception:
-            continue
-        success, response = send_portfolio(portfolio)
+    # NOTE: Here
+    while True:
+        success, context = get_context()
         if not success:
-            f.write(f"Error: {response}\n")
-            f.write(f"Evaluation response: {response}\n")
-            continue
-        f.write(f"Evaluation response: {response}\n")
-        ctx = json.loads(eval(context)["message"])
-        try:
-            f.write("BUDG/SAL:" + str(ctx["budget"]/ctx["salary"]) + "\n")
-            f.write("RISK:" + str(calculate_risk(ctx["age"], ctx["employed"], ctx["budget"]/ctx["salary"])) + "\n")
+            logging.error(f"Error: {context}")
+            exit(-1)
 
-        except ZeroDivisionError:
-            f.write("RISK:" + str(calculate_risk(ctx["age"], ctx["employed"], 0)) + "\n")
-            pass      
-        f.write("PORTF:" + str(portfolio) + "\n")
+        # logging.info(f"Context provided: ", context)
+        print(f"==================")
+        print(f"Context received: {context}")
+
+        # logging.debug(compute(eval(context)["message"]))
+
+        # Maybe do something with the context to generate this?
+        with open("log3.txt", "at") as f:
+            # f.write(eval(context)["message"] + "\n")
+            # f.write("PARSED: " + str(extract_preferences(eval(context)["message"])) + "\n")
+            try:
+                input_message = eval(context)["message"]
+
+                # NOTE: ok
+                print(f"input_message: {input_message}")
+
+                portfolio = compute(input_message)
+            except Exception as e:
+                print(f"Error: {e}")
+
+                exit(-1)
+                
+            print(f"portfolio: {portfolio}")
+
+            success, response = send_portfolio(portfolio)
+
+            # TODO: Temp
+            exit(-1)
+
+            # Logging
+
+            if not success:
+                f.write(f"Error: {response}\n")
+                f.write(f"Evaluation response: {response}\n")
+                continue
+            f.write(f"Evaluation response: {response}\n")
+            ctx = json.loads(eval(context)["message"])
+            try:
+                f.write("BUDG/SAL:" + str(ctx["budget"]/ctx["salary"]) + "\n")
+                f.write("RISK:" + str(calculate_risk(ctx["age"], ctx["employed"], ctx["budget"]/ctx["salary"])) + "\n")
+
+            except ZeroDivisionError:
+                f.write("RISK:" + str(calculate_risk(ctx["age"], ctx["employed"], 0)) + "\n")
+                pass      
+            f.write("PORTF:" + str(portfolio) + "\n")
